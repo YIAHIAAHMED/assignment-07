@@ -5,6 +5,7 @@ import { FriendContext } from '../context/FriendContext';
 import { assets } from '../assets/assets';
 
 const FriendDetails = () => {
+
   const { id } = useParams();
 
   const {
@@ -13,130 +14,154 @@ const FriendDetails = () => {
     addInteraction,
   } = useContext(FriendContext);
 
-  // Loading state
   if (loading) {
     return (
-      <div className="text-center py-20">
-        <p className="text-lg font-semibold text-gray-600">
-          Loading friend...
-        </p>
+      <div className="text-center py-32">
+        Loading...
       </div>
     );
   }
 
-  // Find friend
   const friend = friends.find(
-    (friend) => friend.id === parseInt(id)
+    item => item.id === parseInt(id)
   );
 
-  // Friend not found
   if (!friend) {
     return (
-      <div className="text-center py-20">
-        <p className="text-xl font-semibold text-gray-600">
-          Friend not found.
-        </p>
+      <div className="text-center py-32">
+        <h2 className="text-2xl font-semibold">
+          Friend not found
+        </h2>
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className="max-w-7xl mx-auto px-6 py-16">
+
+      {/* Heading */}
+      <div className="mb-10">
+
+        <p className="text-sm text-[#244D3F] font-semibold mb-2">
+          FRIEND DETAILS
+        </p>
+
+        <h1 className="text-4xl font-semibold">
+          {friend.name}
+        </h1>
+
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-        {/* Profile Card */}
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+        {/* Profile */}
+        <div className="bg-white rounded-2xl border border-gray-100 p-8">
 
           <img
             src={friend.picture}
             alt={friend.name}
-            className="w-32 h-32 rounded-full mx-auto object-cover mb-4 ring-4 ring-emerald-50"
+            className="w-32 h-32 rounded-full object-cover mx-auto"
           />
 
-          <h2 className="text-2xl font-bold text-center text-gray-800">
+          <h2 className="text-2xl font-semibold text-center mt-5">
             {friend.name}
           </h2>
 
-          <p className="text-sm text-center text-gray-500 mb-3">
+          <p className="text-center text-[#64748B] mt-2">
             {friend.email}
           </p>
 
-          {/* Status */}
-          <div className="text-center mb-4">
-            <span className="bg-emerald-50 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-full border border-emerald-100 capitalize">
+          <div className="flex justify-center mt-4">
+
+            <span className="px-3 py-1 bg-[#244D3F] text-white text-xs rounded-full capitalize">
               {friend.status}
             </span>
+
           </div>
 
-          {/* Tags */}
-          <div className="flex flex-wrap gap-1.5 justify-center mb-6">
+          <div className="flex flex-wrap justify-center gap-2 mt-6">
+
             {friend.tags.map((tag, index) => (
               <span
                 key={index}
-                className="bg-gray-100 text-gray-600 text-xs px-2.5 py-1 rounded-md"
+                className="text-xs bg-gray-100 text-[#64748B] px-3 py-1 rounded-md"
               >
                 #{tag}
               </span>
             ))}
+
           </div>
 
-          {/* Bio */}
-          <p className="text-sm text-gray-600 bg-gray-50 p-3 rounded-lg leading-relaxed">
+          <p className="text-[#64748B] text-sm leading-7 bg-[#F8FAFC] rounded-xl p-4 mt-6">
             "{friend.bio}"
           </p>
 
         </div>
 
-        {/* Details & Actions */}
+        {/* Right side */}
         <div className="lg:col-span-2 space-y-6">
 
-          {/* Statistics */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {/* Relationship Goal */}
+          <div className="bg-white rounded-2xl border border-gray-100 p-8">
 
-            {/* Days Since Contact */}
-            <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm text-center">
-              <p className="text-xs text-gray-500 mb-1">
-                Days Since Contact
-              </p>
+            <h2 className="text-xl font-semibold">
+              Relationship Goal
+            </h2>
 
-              <p className="text-2xl font-bold text-emerald-600">
-                {friend.days_since_contact} Days
-              </p>
-            </div>
+            <p className="text-[#64748B] mt-2">
+              Connect every {friend.goal} days
+            </p>
 
-            {/* Goal */}
-            <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm text-center">
-              <p className="text-xs text-gray-500 mb-1">
-                Goal
-              </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
 
-              <p className="text-2xl font-bold text-gray-800">
-                Every {friend.goal} Days
-              </p>
-            </div>
+              <div className="bg-[#F8FAFC] rounded-xl p-5 text-center">
 
-            {/* Next Due Date */}
-            <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm text-center">
-              <p className="text-xs text-gray-500 mb-1">
-                Next Due Date
-              </p>
+                <p className="text-sm text-[#64748B]">
+                  Days Since Contact
+                </p>
 
-              <p className="text-xl font-bold text-amber-600">
-                {friend.next_due_date}
-              </p>
+                <p className="text-2xl font-semibold mt-2">
+                  {friend.days_since_contact}
+                </p>
+
+              </div>
+
+              <div className="bg-[#F8FAFC] rounded-xl p-5 text-center">
+
+                <p className="text-sm text-[#64748B]">
+                  Goal (Days)
+                </p>
+
+                <p className="text-2xl font-semibold mt-2">
+                  {friend.goal}
+                </p>
+
+              </div>
+
+              <div className="bg-[#F8FAFC] rounded-xl p-5 text-center">
+
+                <p className="text-sm text-[#64748B]">
+                  Next Due
+                </p>
+
+                <p className="text-lg font-semibold mt-3 text-[#244D3F]">
+                  {friend.next_due_date}
+                </p>
+
+              </div>
+
             </div>
 
           </div>
 
-          {/* Quick Check-In */}
-          <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+          {/* Quick Check In */}
+          <div className="bg-white rounded-2xl border border-gray-100 p-8">
 
-            <h3 className="font-semibold text-gray-800 mb-4">
+            <h2 className="text-xl font-semibold">
               Quick Check-In
-            </h3>
+            </h2>
 
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-4 mt-6">
 
               {/* Call */}
               <button
@@ -147,17 +172,18 @@ const FriendDetails = () => {
                     'Call'
                   )
                 }
-                className="flex flex-col items-center justify-center p-4 bg-gray-50 hover:bg-emerald-50 hover:border-emerald-200 border border-gray-100 rounded-xl transition-all font-medium gap-2"
+                className="p-6 rounded-xl bg-[#F8FAFC] border border-gray-100 hover:border-[#244D3F] hover:bg-[#F1F7F4] transition"
               >
                 <img
                   src={assets.callIcon}
                   alt="Call"
-                  className="w-8 h-8 object-contain"
+                  className="w-8 h-8 mx-auto"
                 />
 
-                <span className="text-sm text-gray-700">
+                <p className="text-sm font-medium mt-3">
                   Call
-                </span>
+                </p>
+
               </button>
 
               {/* Text */}
@@ -169,17 +195,19 @@ const FriendDetails = () => {
                     'Text'
                   )
                 }
-                className="flex flex-col items-center justify-center p-4 bg-gray-50 hover:bg-emerald-50 hover:border-emerald-200 border border-gray-100 rounded-xl transition-all font-medium gap-2"
+                className="p-6 rounded-xl bg-[#F8FAFC] border border-gray-100 hover:border-[#244D3F] hover:bg-[#F1F7F4] transition"
               >
+
                 <img
                   src={assets.textIcon}
                   alt="Text"
-                  className="w-8 h-8 object-contain"
+                  className="w-8 h-8 mx-auto"
                 />
 
-                <span className="text-sm text-gray-700">
+                <p className="text-sm font-medium mt-3">
                   Text
-                </span>
+                </p>
+
               </button>
 
               {/* Video */}
@@ -191,24 +219,29 @@ const FriendDetails = () => {
                     'Video'
                   )
                 }
-                className="flex flex-col items-center justify-center p-4 bg-gray-50 hover:bg-emerald-50 hover:border-emerald-200 border border-gray-100 rounded-xl transition-all font-medium gap-2"
+                className="p-6 rounded-xl bg-[#F8FAFC] border border-gray-100 hover:border-[#244D3F] hover:bg-[#F1F7F4] transition"
               >
+
                 <img
                   src={assets.videoIcon}
                   alt="Video"
-                  className="w-8 h-8 object-contain"
+                  className="w-8 h-8 mx-auto"
                 />
 
-                <span className="text-sm text-gray-700">
+                <p className="text-sm font-medium mt-3">
                   Video
-                </span>
+                </p>
+
               </button>
 
             </div>
+
           </div>
 
         </div>
+
       </div>
+
     </div>
   );
 };

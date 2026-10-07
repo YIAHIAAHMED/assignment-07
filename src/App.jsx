@@ -1,37 +1,49 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import FriendDetails from './pages/FriendDetails';
-import { FriendProvider } from './context/FriendContext';
 
-import { Toaster } from 'react-hot-toast';
+import Home from './pages/Home';
+import FriendDetails from './pages/FriendDetails';
+import Timeline from './pages/Timeline';
+import Stats from './pages/Stats';
+import SignIn from './pages/SignIn';
+
+import { FriendProvider } from './context/FriendContext';
 
 function App() {
   return (
     <FriendProvider>
-      <Router>
-        <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800">
-          
+      <BrowserRouter>
+
+        <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-[#1F2937]">
+
           <Navbar />
 
-          <main className="flex-grow">
+          <main className="flex-1">
             <Routes>
 
-              {/* Home Page */}
-              <Route
-                path="/"
-                element={
-                  <div className="text-center py-20 font-bold text-2xl">
-                    KeenKeeper Home Page
-                  </div>
-                }
-              />
+              <Route path="/" element={<Home />} />
 
-              {/* Friend Details */}
               <Route
                 path="/friend/:id"
                 element={<FriendDetails />}
+              />
+
+              <Route
+                path="/timeline"
+                element={<Timeline />}
+              />
+
+              <Route
+                path="/stats"
+                element={<Stats />}
+              />
+
+              <Route
+                path="/signin"
+                element={<SignIn />}
               />
 
             </Routes>
@@ -40,11 +52,10 @@ function App() {
           <Footer />
 
         </div>
-      </Router>
 
-      {/* Toast Message */}
-      <Toaster position="top-right" />
+        <Toaster position="top-right" />
 
+      </BrowserRouter>
     </FriendProvider>
   );
 }

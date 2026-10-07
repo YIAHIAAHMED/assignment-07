@@ -1,36 +1,64 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { assets } from '../assets/assets';
+import { NavLink, Link } from 'react-router-dom';
 
 const Navbar = () => {
-  const activeClass = "text-[#103d33] font-semibold bg-emerald-50 px-3 py-2 rounded-lg transition-all";
-  const inactiveClass = "text-gray-600 hover:text-[#103d33] px-3 py-2 rounded-lg transition-all";
+
+  const navClass = ({ isActive }) =>
+    `text-sm font-medium transition ${
+      isActive
+        ? 'text-[#244D3F] font-semibold'
+        : 'text-[#64748B] hover:text-[#244D3F]'
+    }`;
 
   return (
-    <nav className="bg-white shadow-sm border-b sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
-          
-          {/* Logo from assets */}
-          <NavLink to="/" className="flex items-center">
-            <img src={assets.logo} alt="KeenKeeper Logo" className="h-7 w-auto object-contain" />
+    <header className="bg-white border-b border-gray-100">
+
+      <div className="max-w-7xl mx-auto px-6 h-[78px] flex items-center justify-between">
+
+        {/* Logo */}
+        <Link
+          to="/"
+          className="text-2xl font-semibold text-[#244D3F]"
+        >
+          Keen Keeper
+        </Link>
+
+        {/* Navigation */}
+        <nav className="hidden md:flex items-center gap-8">
+
+          <NavLink
+            to="/"
+            className={navClass}
+          >
+            Home
           </NavLink>
 
-          <div className="flex items-center gap-2 sm:gap-6 font-medium">
-            <NavLink to="/" className={({ isActive }) => isActive ? activeClass : inactiveClass}>
-              Home
-            </NavLink>
-            <NavLink to="/timeline" className={({ isActive }) => isActive ? activeClass : inactiveClass}>
-              Timeline
-            </NavLink>
-            <NavLink to="/stats" className={({ isActive }) => isActive ? activeClass : inactiveClass}>
-              Stats
-            </NavLink>
-          </div>
+          <NavLink
+            to="/timeline"
+            className={navClass}
+          >
+            Timeline
+          </NavLink>
 
-        </div>
+          <NavLink
+            to="/stats"
+            className={navClass}
+          >
+            Stats
+          </NavLink>
+
+        </nav>
+
+        {/* Sign In */}
+        <Link
+          to="/signin"
+          className="px-5 py-2.5 rounded-lg bg-[#244D3F] text-white text-sm font-medium hover:bg-[#1d3f34] transition"
+        >
+          Sign In
+        </Link>
+
       </div>
-    </nav>
+
+    </header>
   );
 };
 
