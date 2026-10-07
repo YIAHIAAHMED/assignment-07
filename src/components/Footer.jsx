@@ -1,68 +1,94 @@
-import { Link } from 'react-router-dom';
-
 const Footer = () => {
   return (
-    <footer className="bg-[#244D3F] text-white mt-16">
+    <footer className="bg-[#245646] text-white border-t-2 border-[#2B9C9C]">
 
-      <div className="max-w-7xl mx-auto px-5 py-12">
+      <div className="max-w-7xl mx-auto px-5">
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+        {/* Main Footer */}
+        <div className="text-center py-8">
 
-          <div>
+          <h2 className="text-3xl md:text-4xl font-bold">
+            KeenKeeper
+          </h2>
 
-            <h2 className="text-2xl font-bold">
-              KeenKeeper
-            </h2>
+          <p className="text-[9px] text-white/60 mt-2">
+            Your personal shelf of meaningful connections. Browse, tend, and nurture the relationships that matter most.
+          </p>
 
-            <p className="text-white/70 mt-4 leading-7 max-w-sm">
-              Keep your friendships alive by staying
-              connected with the people who matter most.
+          {/* Social Links */}
+          <div className="mt-4">
+
+            <p className="text-[11px] text-white mb-2">
+              Social Links
             </p>
 
-          </div>
+            <div className="flex justify-center gap-2">
 
-          <div>
+              {/* YouTube */}
+              <a
+                href="#"
+                className="w-5 h-5 rounded-full bg-white text-[#245646] flex items-center justify-center text-[9px] font-bold hover:bg-gray-200 transition"
+              >
+                ▶
+              </a>
 
-            <h3 className="font-bold mb-4">
-              Quick Links
-            </h3>
+              {/* Facebook */}
+              <a
+                href="#"
+                className="w-5 h-5 rounded-full bg-white text-[#245646] flex items-center justify-center text-[10px] font-bold hover:bg-gray-200 transition"
+              >
+                f
+              </a>
 
-            <div className="flex flex-col gap-3 text-white/70">
-
-              <Link to="/">
-                Home
-              </Link>
-
-              <Link to="/timeline">
-                Timeline
-              </Link>
-
-              <Link to="/stats">
-                Stats
-              </Link>
+              {/* X */}
+              <a
+                href="#"
+                className="w-5 h-5 rounded-full bg-white text-[#245646] flex items-center justify-center text-[9px] font-bold hover:bg-gray-200 transition"
+              >
+                X
+              </a>
 
             </div>
 
           </div>
 
-          <div>
-
-            <h3 className="font-bold mb-4">
-              KeenKeeper
-            </h3>
-
-            <p className="text-white/70 leading-7">
-              A simple friendship management app
-              built with React.
-            </p>
-
-          </div>
-
         </div>
 
-        <div className="border-t border-white/20 mt-10 pt-6 text-sm text-white/60 text-center">
+        {/* Bottom Footer */}
+        <div className="border-t border-white/10 py-4">
 
-          © 2026 KeenKeeper. All rights reserved.
+          <div className="flex flex-col md:flex-row items-center justify-between gap-3">
+
+            <p className="text-[9px] text-white/40">
+              © 2026 KeenKeeper. All rights reserved.
+            </p>
+
+            <div className="flex items-center gap-6">
+
+              <a
+                href="#"
+                className="text-[9px] text-white/40 hover:text-white/70 transition"
+              >
+                Privacy Policy
+              </a>
+
+              <a
+                href="#"
+                className="text-[9px] text-white/40 hover:text-white/70 transition"
+              >
+                Terms of Service
+              </a>
+
+              <a
+                href="#"
+                className="text-[9px] text-white/40 hover:text-white/70 transition"
+              >
+                Cookies
+              </a>
+
+            </div>
+
+          </div>
 
         </div>
 

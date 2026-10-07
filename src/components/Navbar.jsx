@@ -32,10 +32,9 @@ const Navbar = () => {
   ];
 
   const navClass = ({ isActive }) =>
-    `flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition ${
-      isActive
-        ? 'bg-[#E7F1EC] text-[#244D3F]'
-        : 'text-[#64748B] hover:bg-gray-100 hover:text-[#244D3F]'
+    `flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition ${isActive
+      ? 'bg-[#E7F1EC] text-[#244D3F]'
+      : 'text-[#64748B] hover:bg-gray-100 hover:text-[#244D3F]'
     }`;
 
   return (
@@ -48,13 +47,15 @@ const Navbar = () => {
           to="/"
           className="flex items-center gap-2"
         >
-          <div className="w-9 h-9 rounded-lg bg-[#244D3F] text-white flex items-center justify-center font-bold">
-            K
-          </div>
 
-          <span className="text-xl font-bold text-[#244D3F]">
-            KeenKeeper
+        <div className="flex">
+          <span className="text-xl font-bold text-black">
+            Keen
           </span>
+          <span className="text-xl font-bold text-[#244D3F]">
+            Keeper
+          </span>
+        </div>
         </Link>
 
         {/* Desktop Navigation */}
