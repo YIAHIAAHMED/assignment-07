@@ -16,14 +16,11 @@ function App() {
   return (
     <FriendProvider>
       <BrowserRouter>
-
         <div className="min-h-screen flex flex-col bg-[#F8FAFC]">
-
           <Navbar />
 
           <main className="flex-1">
             <Routes>
-
               <Route path="/" element={<Home />} />
 
               <Route
@@ -41,17 +38,11 @@ function App() {
                 element={<Stats />}
               />
 
-              {/* 404 */}
-              <Route
-                path="*"
-                element={<NotFound />}
-              />
-
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
 
           <Footer />
-
         </div>
 
         <Toaster
@@ -60,7 +51,6 @@ function App() {
             duration: 2500,
           }}
         />
-
       </BrowserRouter>
     </FriendProvider>
   );

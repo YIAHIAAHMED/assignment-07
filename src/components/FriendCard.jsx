@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import { CalendarDays, ArrowRight } from 'lucide-react';
 
 const FriendCard = ({ friend }) => {
-
   const statusStyle = {
     overdue: 'bg-red-50 text-red-600 border-red-100',
     'almost due': 'bg-amber-50 text-amber-600 border-amber-100',
@@ -12,12 +11,10 @@ const FriendCard = ({ friend }) => {
   return (
     <Link
       to={`/friend/${friend.id}`}
-      className="block"
+      className="block group"
     >
+      <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden transition duration-300 group-hover:shadow-lg group-hover:-translate-y-1">
 
-      <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-lg hover:-translate-y-1 transition duration-300">
-
-        {/* Picture */}
         <img
           src={friend.picture}
           alt={friend.name}
@@ -26,46 +23,38 @@ const FriendCard = ({ friend }) => {
 
         <div className="p-5">
 
-          {/* Status */}
           <span
             className={`inline-block px-3 py-1 rounded-full text-xs font-semibold border capitalize ${
-              statusStyle[friend.status]
+              statusStyle[friend.status] ||
+              'bg-gray-50 text-gray-600 border-gray-100'
             }`}
           >
             {friend.status}
           </span>
 
-          {/* Name */}
           <h3 className="text-xl font-bold text-[#1F2937] mt-3">
             {friend.name}
           </h3>
 
-          {/* Days */}
           <div className="flex items-center gap-2 text-sm text-[#64748B] mt-2">
-
             <CalendarDays size={16} />
 
             <span>
               {friend.days_since_contact} days since contact
             </span>
-
           </div>
 
-          {/* Tags */}
           <div className="flex flex-wrap gap-2 mt-4">
-
-            {friend.tags.map((tag, index) => (
+            {friend.tags?.map((tag, index) => (
               <span
-                key={index}
+                key={`${tag}-${index}`}
                 className="bg-[#F1F5F9] text-[#64748B] text-xs px-2.5 py-1 rounded-md"
               >
                 #{tag}
               </span>
             ))}
-
           </div>
 
-          {/* View */}
           <div className="flex items-center justify-between mt-5 pt-4 border-t border-gray-100">
 
             <span className="text-sm font-semibold text-[#244D3F]">
@@ -74,15 +63,12 @@ const FriendCard = ({ friend }) => {
 
             <ArrowRight
               size={18}
-              className="text-[#244D3F]"
+              className="text-[#244D3F] transition-transform group-hover:translate-x-1"
             />
 
           </div>
-
         </div>
-
       </div>
-
     </Link>
   );
 };

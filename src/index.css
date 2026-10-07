@@ -11,13 +11,14 @@ html {
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
-  background: #f8fafc;
+  background-color: #f8fafc;
   color: #1f2937;
 }
 
 button,
 input,
-select {
+select,
+textarea {
   font: inherit;
 }
 

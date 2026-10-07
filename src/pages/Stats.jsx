@@ -12,37 +12,24 @@ import {
 import { FriendContext } from '../context/FriendContext';
 
 const Stats = () => {
-
-  const {
-    timeline,
-    friends,
-  } = useContext(FriendContext);
+  const { timeline, friends } = useContext(FriendContext);
 
   const callCount = timeline.filter(
-    item => item.type === 'Call'
+    (item) => item.type === 'Call'
   ).length;
 
   const textCount = timeline.filter(
-    item => item.type === 'Text'
+    (item) => item.type === 'Text'
   ).length;
 
   const videoCount = timeline.filter(
-    item => item.type === 'Video'
+    (item) => item.type === 'Video'
   ).length;
 
   const data = [
-    {
-      name: 'Call',
-      value: callCount,
-    },
-    {
-      name: 'Text',
-      value: textCount,
-    },
-    {
-      name: 'Video',
-      value: videoCount,
-    },
+    { name: 'Call', value: callCount },
+    { name: 'Text', value: textCount },
+    { name: 'Video', value: videoCount },
   ];
 
   const COLORS = [
@@ -52,19 +39,17 @@ const Stats = () => {
   ];
 
   const overdue = friends.filter(
-    friend => friend.status === 'overdue'
+    (friend) => friend.status === 'overdue'
   ).length;
 
   const onTrack = friends.filter(
-    friend => friend.status === 'on-track'
+    (friend) => friend.status === 'on-track'
   ).length;
 
   return (
     <div className="max-w-7xl mx-auto px-5 py-12">
 
-      {/* Heading */}
       <div className="mb-10">
-
         <p className="text-sm font-bold text-[#244D3F]">
           RELATIONSHIP INSIGHTS
         </p>
@@ -76,10 +61,8 @@ const Stats = () => {
         <p className="text-[#64748B] mt-2">
           Understand how you are staying connected.
         </p>
-
       </div>
 
-      {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
 
         <div className="bg-white border border-gray-100 rounded-2xl p-6">
@@ -124,7 +107,6 @@ const Stats = () => {
 
       </div>
 
-      {/* Chart */}
       <div className="bg-white border border-gray-100 rounded-2xl p-6 md:p-8 mt-7">
 
         <h2 className="text-xl font-bold">
@@ -135,46 +117,39 @@ const Stats = () => {
           Calls, texts and video interactions.
         </p>
 
-        <div className="w-full h-[350px] mt-5">
+        {timeline.length === 0 ? (
+          <div className="h-[350px] flex items-center justify-center text-[#64748B]">
+            No interactions available yet.
+          </div>
+        ) : (
+          <div className="w-full h-[350px] mt-5">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={data}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={75}
+                  outerRadius={115}
+                  paddingAngle={4}
+                  dataKey="value"
+                >
+                  {data.map((entry, index) => (
+                    <Cell
+                      key={entry.name}
+                      fill={COLORS[index]}
+                    />
+                  ))}
+                </Pie>
 
-          <ResponsiveContainer
-            width="100%"
-            height="100%"
-          >
-
-            <PieChart>
-
-              <Pie
-                data={data}
-                cx="50%"
-                cy="50%"
-                innerRadius={75}
-                outerRadius={115}
-                paddingAngle={4}
-                dataKey="value"
-              >
-
-                {data.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[index]}
-                  />
-                ))}
-
-              </Pie>
-
-              <Tooltip />
-
-              <Legend />
-
-            </PieChart>
-
-          </ResponsiveContainer>
-
-        </div>
+                <Tooltip />
+                <Legend />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        )}
 
       </div>
-
     </div>
   );
 };
