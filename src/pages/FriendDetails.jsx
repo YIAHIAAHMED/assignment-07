@@ -1,8 +1,20 @@
 import { useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+
+import {
+  ArrowLeft,
+  Clock3,
+  Archive,
+  Trash2,
+  Pencil,
+  Phone,
+  MessageSquare,
+  Video,
+  Mail,
+} from 'lucide-react';
 
 import { FriendContext } from '../context/FriendContext';
-import { assets } from '../assets/assets';
+import Loading from '../components/Loading';
 
 const FriendDetails = () => {
 
@@ -15,47 +27,39 @@ const FriendDetails = () => {
   } = useContext(FriendContext);
 
   if (loading) {
-    return (
-      <div className="text-center py-32">
-        Loading...
-      </div>
-    );
+    return <Loading />;
   }
 
   const friend = friends.find(
-    item => item.id === parseInt(id)
+    item => item.id === Number(id)
   );
 
   if (!friend) {
-    return (
-      <div className="text-center py-32">
-        <h2 className="text-2xl font-semibold">
-          Friend not found
-        </h2>
-      </div>
-    );
+    return null;
   }
 
+  const statusStyle = {
+    overdue: 'bg-red-50 text-red-600 border-red-100',
+    'almost due': 'bg-amber-50 text-amber-600 border-amber-100',
+    'on-track': 'bg-emerald-50 text-emerald-600 border-emerald-100',
+  };
+
   return (
-    <div className="max-w-7xl mx-auto px-6 py-16">
+    <div className="max-w-7xl mx-auto px-5 py-10">
 
-      {/* Heading */}
-      <div className="mb-10">
+      {/* Back */}
+      <Link
+        to="/"
+        className="inline-flex items-center gap-2 text-sm text-[#64748B] hover:text-[#244D3F]"
+      >
+        <ArrowLeft size={17} />
+        Back to Friends
+      </Link>
 
-        <p className="text-sm text-[#244D3F] font-semibold mb-2">
-          FRIEND DETAILS
-        </p>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-7 mt-7">
 
-        <h1 className="text-4xl font-semibold">
-          {friend.name}
-        </h1>
-
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-        {/* Profile */}
-        <div className="bg-white rounded-2xl border border-gray-100 p-8">
+        {/* LEFT */}
+        <div className="bg-white rounded-2xl border border-gray-100 p-7">
 
           <img
             src={friend.picture}
@@ -63,28 +67,40 @@ const FriendDetails = () => {
             className="w-32 h-32 rounded-full object-cover mx-auto"
           />
 
-          <h2 className="text-2xl font-semibold text-center mt-5">
+          <h1 className="text-2xl font-bold text-center mt-5">
             {friend.name}
-          </h2>
+          </h1>
 
-          <p className="text-center text-[#64748B] mt-2">
-            {friend.email}
-          </p>
+          <div className="flex items-center justify-center gap-2 text-[#64748B] mt-2">
 
-          <div className="flex justify-center mt-4">
+            <Mail size={16} />
 
-            <span className="px-3 py-1 bg-[#244D3F] text-white text-xs rounded-full capitalize">
+            <span className="text-sm">
+              {friend.email}
+            </span>
+
+          </div>
+
+          {/* Status */}
+          <div className="flex justify-center mt-5">
+
+            <span
+              className={`px-3 py-1 rounded-full border text-xs font-semibold capitalize ${
+                statusStyle[friend.status]
+              }`}
+            >
               {friend.status}
             </span>
 
           </div>
 
-          <div className="flex flex-wrap justify-center gap-2 mt-6">
+          {/* Tags */}
+          <div className="flex flex-wrap justify-center gap-2 mt-5">
 
             {friend.tags.map((tag, index) => (
               <span
                 key={index}
-                className="text-xs bg-gray-100 text-[#64748B] px-3 py-1 rounded-md"
+                className="px-3 py-1 bg-gray-100 text-[#64748B] text-xs rounded-md"
               >
                 #{tag}
               </span>
@@ -92,76 +108,144 @@ const FriendDetails = () => {
 
           </div>
 
-          <p className="text-[#64748B] text-sm leading-7 bg-[#F8FAFC] rounded-xl p-4 mt-6">
-            "{friend.bio}"
-          </p>
+          {/* Bio */}
+          <div className="bg-[#F8FAFC] rounded-xl p-4 mt-6">
+
+            <p className="text-sm text-[#64748B] leading-7">
+              {friend.bio}
+            </p>
+
+          </div>
+
+          {/* Actions */}
+          <div className="grid grid-cols-3 gap-2 mt-6">
+
+            <button className="border border-gray-200 rounded-lg py-3 text-xs font-medium hover:bg-gray-50">
+
+              <Clock3
+                size={17}
+                className="mx-auto mb-1"
+              />
+
+              Snooze
+
+            </button>
+
+            <button className="border border-gray-200 rounded-lg py-3 text-xs font-medium hover:bg-gray-50">
+
+              <Archive
+                size={17}
+                className="mx-auto mb-1"
+              />
+
+              Archive
+
+            </button>
+
+            <button className="border border-red-100 text-red-500 rounded-lg py-3 text-xs font-medium hover:bg-red-50">
+
+              <Trash2
+                size={17}
+                className="mx-auto mb-1"
+              />
+
+              Delete
+
+            </button>
+
+          </div>
 
         </div>
 
-        {/* Right side */}
+        {/* RIGHT */}
         <div className="lg:col-span-2 space-y-6">
 
-          {/* Relationship Goal */}
-          <div className="bg-white rounded-2xl border border-gray-100 p-8">
+          {/* Stats */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
 
-            <h2 className="text-xl font-semibold">
-              Relationship Goal
-            </h2>
+            <div className="bg-white border border-gray-100 rounded-2xl p-5">
 
-            <p className="text-[#64748B] mt-2">
-              Connect every {friend.goal} days
-            </p>
+              <p className="text-sm text-[#64748B]">
+                Days Since Contact
+              </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
+              <p className="text-3xl font-bold mt-2">
+                {friend.days_since_contact}
+              </p>
 
-              <div className="bg-[#F8FAFC] rounded-xl p-5 text-center">
+            </div>
 
-                <p className="text-sm text-[#64748B]">
-                  Days Since Contact
-                </p>
+            <div className="bg-white border border-gray-100 rounded-2xl p-5">
 
-                <p className="text-2xl font-semibold mt-2">
-                  {friend.days_since_contact}
-                </p>
+              <p className="text-sm text-[#64748B]">
+                Goal
+              </p>
 
-              </div>
+              <p className="text-3xl font-bold mt-2">
+                {friend.goal}
+              </p>
 
-              <div className="bg-[#F8FAFC] rounded-xl p-5 text-center">
+              <p className="text-xs text-[#64748B] mt-1">
+                days
+              </p>
 
-                <p className="text-sm text-[#64748B]">
-                  Goal (Days)
-                </p>
+            </div>
 
-                <p className="text-2xl font-semibold mt-2">
-                  {friend.goal}
-                </p>
+            <div className="bg-white border border-gray-100 rounded-2xl p-5">
 
-              </div>
+              <p className="text-sm text-[#64748B]">
+                Next Due Date
+              </p>
 
-              <div className="bg-[#F8FAFC] rounded-xl p-5 text-center">
-
-                <p className="text-sm text-[#64748B]">
-                  Next Due
-                </p>
-
-                <p className="text-lg font-semibold mt-3 text-[#244D3F]">
-                  {friend.next_due_date}
-                </p>
-
-              </div>
+              <p className="text-lg font-bold text-[#244D3F] mt-3">
+                {friend.next_due_date}
+              </p>
 
             </div>
 
           </div>
 
-          {/* Quick Check In */}
-          <div className="bg-white rounded-2xl border border-gray-100 p-8">
+          {/* Relationship Goal */}
+          <div className="bg-white border border-gray-100 rounded-2xl p-7">
 
-            <h2 className="text-xl font-semibold">
+            <div className="flex items-center justify-between">
+
+              <div>
+
+                <h2 className="text-xl font-bold">
+                  Relationship Goal
+                </h2>
+
+                <p className="text-[#64748B] text-sm mt-1">
+                  Stay connected every {friend.goal} days.
+                </p>
+
+              </div>
+
+              <button className="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium hover:bg-gray-50">
+
+                <Pencil size={16} />
+
+                Edit
+
+              </button>
+
+            </div>
+
+          </div>
+
+          {/* Quick Check-In */}
+          <div className="bg-white border border-gray-100 rounded-2xl p-7">
+
+            <h2 className="text-xl font-bold">
               Quick Check-In
             </h2>
 
-            <div className="grid grid-cols-3 gap-4 mt-6">
+            <p className="text-sm text-[#64748B] mt-1">
+              Log your latest interaction.
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
 
               {/* Call */}
               <button
@@ -172,15 +256,15 @@ const FriendDetails = () => {
                     'Call'
                   )
                 }
-                className="p-6 rounded-xl bg-[#F8FAFC] border border-gray-100 hover:border-[#244D3F] hover:bg-[#F1F7F4] transition"
+                className="p-5 bg-[#F8FAFC] border border-gray-100 rounded-xl hover:bg-[#E7F1EC] hover:border-[#244D3F] transition"
               >
-                <img
-                  src={assets.callIcon}
-                  alt="Call"
-                  className="w-8 h-8 mx-auto"
+
+                <Phone
+                  size={26}
+                  className="mx-auto text-[#244D3F]"
                 />
 
-                <p className="text-sm font-medium mt-3">
+                <p className="font-semibold mt-3">
                   Call
                 </p>
 
@@ -195,16 +279,15 @@ const FriendDetails = () => {
                     'Text'
                   )
                 }
-                className="p-6 rounded-xl bg-[#F8FAFC] border border-gray-100 hover:border-[#244D3F] hover:bg-[#F1F7F4] transition"
+                className="p-5 bg-[#F8FAFC] border border-gray-100 rounded-xl hover:bg-[#E7F1EC] hover:border-[#244D3F] transition"
               >
 
-                <img
-                  src={assets.textIcon}
-                  alt="Text"
-                  className="w-8 h-8 mx-auto"
+                <MessageSquare
+                  size={26}
+                  className="mx-auto text-[#244D3F]"
                 />
 
-                <p className="text-sm font-medium mt-3">
+                <p className="font-semibold mt-3">
                   Text
                 </p>
 
@@ -219,16 +302,15 @@ const FriendDetails = () => {
                     'Video'
                   )
                 }
-                className="p-6 rounded-xl bg-[#F8FAFC] border border-gray-100 hover:border-[#244D3F] hover:bg-[#F1F7F4] transition"
+                className="p-5 bg-[#F8FAFC] border border-gray-100 rounded-xl hover:bg-[#E7F1EC] hover:border-[#244D3F] transition"
               >
 
-                <img
-                  src={assets.videoIcon}
-                  alt="Video"
-                  className="w-8 h-8 mx-auto"
+                <Video
+                  size={26}
+                  className="mx-auto text-[#244D3F]"
                 />
 
-                <p className="text-sm font-medium mt-3">
+                <p className="font-semibold mt-3">
                   Video
                 </p>
 

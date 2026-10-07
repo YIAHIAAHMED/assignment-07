@@ -8,7 +8,7 @@ import Home from './pages/Home';
 import FriendDetails from './pages/FriendDetails';
 import Timeline from './pages/Timeline';
 import Stats from './pages/Stats';
-import SignIn from './pages/SignIn';
+import NotFound from './pages/NotFound';
 
 import { FriendProvider } from './context/FriendContext';
 
@@ -17,7 +17,7 @@ function App() {
     <FriendProvider>
       <BrowserRouter>
 
-        <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-[#1F2937]">
+        <div className="min-h-screen flex flex-col bg-[#F8FAFC]">
 
           <Navbar />
 
@@ -41,9 +41,10 @@ function App() {
                 element={<Stats />}
               />
 
+              {/* 404 */}
               <Route
-                path="/signin"
-                element={<SignIn />}
+                path="*"
+                element={<NotFound />}
               />
 
             </Routes>
@@ -53,7 +54,12 @@ function App() {
 
         </div>
 
-        <Toaster position="top-right" />
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 2500,
+          }}
+        />
 
       </BrowserRouter>
     </FriendProvider>

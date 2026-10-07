@@ -1,4 +1,12 @@
 import { useContext, useState } from 'react';
+
+import {
+  Phone,
+  MessageSquare,
+  Video,
+  CalendarDays,
+} from 'lucide-react';
+
 import { FriendContext } from '../context/FriendContext';
 
 const Timeline = () => {
@@ -13,7 +21,9 @@ const Timeline = () => {
   const filteredTimeline =
     filter === 'All'
       ? timeline
-      : timeline.filter(item => item.type === filter);
+      : timeline.filter(
+          item => item.type === filter
+        );
 
   const getFriendName = (friendId) => {
 
@@ -21,94 +31,123 @@ const Timeline = () => {
       item => item.id === friendId
     );
 
-    return friend ? friend.name : 'Unknown Friend';
+    return friend?.name || 'Unknown Friend';
+  };
+
+  const getIcon = (type) => {
+
+    if (type === 'Call') {
+      return <Phone size={20} />;
+    }
+
+    if (type === 'Text') {
+      return <MessageSquare size={20} />;
+    }
+
+    return <Video size={20} />;
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-16">
+    <div className="max-w-5xl mx-auto px-5 py-12">
 
       {/* Heading */}
-      <div className="mb-10">
+      <div className="mb-8">
 
-        <p className="text-sm font-semibold text-[#244D3F]">
-          YOUR ACTIVITY
+        <p className="text-sm font-bold text-[#244D3F]">
+          ACTIVITY HISTORY
         </p>
 
-        <h1 className="text-4xl font-semibold mt-2">
+        <h1 className="text-4xl font-bold mt-2">
           Timeline
         </h1>
 
-        <p className="text-[#64748B] mt-3">
-          Keep track of your recent interactions.
+        <p className="text-[#64748B] mt-2">
+          See all your recent interactions.
         </p>
 
       </div>
 
       {/* Filter */}
-      <div className="bg-white border border-gray-100 rounded-xl p-5 mb-8">
+      <div className="bg-white border border-gray-100 rounded-2xl p-5 mb-7">
 
-        <label className="text-sm font-medium">
-          Filter timeline
-        </label>
+        <div className="flex flex-wrap gap-2">
 
-        <select
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-          className="mt-3 w-full md:w-64 border border-gray-200 rounded-lg px-4 py-3 outline-none"
-        >
-          <option value="All">
-            All
-          </option>
+          {['All', 'Call', 'Text', 'Video'].map(
+            (item) => (
 
-          <option value="Call">
-            Call
-          </option>
+              <button
+                key={item}
+                onClick={() => setFilter(item)}
+                className={`px-5 py-2.5 rounded-lg text-sm font-medium transition ${
+                  filter === item
+                    ? 'bg-[#244D3F] text-white'
+                    : 'bg-gray-100 text-[#64748B] hover:bg-gray-200'
+                }`}
+              >
+                {item}
+              </button>
 
-          <option value="Text">
-            Text
-          </option>
+            )
+          )}
 
-          <option value="Video">
-            Video
-          </option>
-
-        </select>
+        </div>
 
       </div>
 
       {/* Timeline */}
       <div className="space-y-4">
 
-        {filteredTimeline.map((item) => (
+        {filteredTimeline.length === 0 ? (
 
-          <div
-            key={item.id}
-            className="bg-white border border-gray-100 rounded-xl p-6 flex items-start gap-5"
-          >
+          <div className="bg-white border border-gray-100 rounded-2xl p-12 text-center">
 
-            <div className="w-12 h-12 rounded-full bg-[#F1F7F4] flex items-center justify-center text-[#244D3F] font-semibold">
-              {item.type.charAt(0)}
-            </div>
-
-            <div className="flex-1">
-
-              <h3 className="font-semibold">
-                {item.type}
-              </h3>
-
-              <p className="text-[#64748B] mt-1">
-                {item.title}
-              </p>
-
-              <p className="text-sm text-[#94A3B8] mt-3">
-                {item.date}
-              </p>
-
-            </div>
+            <p className="text-[#64748B]">
+              No {filter} interactions found.
+            </p>
 
           </div>
 
-        ))}
+        ) : (
+
+          filteredTimeline.map((item) => (
+
+            <div
+              key={item.id}
+              className="bg-white border border-gray-100 rounded-2xl p-5 flex items-center gap-5"
+            >
+
+              {/* Icon */}
+              <div className="w-12 h-12 shrink-0 rounded-full bg-[#E7F1EC] text-[#244D3F] flex items-center justify-center">
+                {getIcon(item.type)}
+              </div>
+
+              {/* Content */}
+              <div className="flex-1">
+
+                <h3 className="font-bold">
+                  {item.title}
+                </h3>
+
+                <p className="text-sm text-[#64748B] mt-1">
+                  {getFriendName(item.friendId)}
+                </p>
+
+              </div>
+
+              {/* Date */}
+              <div className="hidden sm:flex items-center gap-2 text-sm text-[#64748B]">
+
+                <CalendarDays size={16} />
+
+                {item.date}
+
+              </div>
+
+            </div>
+
+          ))
+
+        )}
 
       </div>
 

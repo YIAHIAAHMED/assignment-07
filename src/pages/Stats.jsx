@@ -1,24 +1,55 @@
 import { useContext } from 'react';
+
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts';
+
 import { FriendContext } from '../context/FriendContext';
 
 const Stats = () => {
 
   const {
-    friends,
     timeline,
+    friends,
   } = useContext(FriendContext);
 
-  const calls = timeline.filter(
+  const callCount = timeline.filter(
     item => item.type === 'Call'
   ).length;
 
-  const texts = timeline.filter(
+  const textCount = timeline.filter(
     item => item.type === 'Text'
   ).length;
 
-  const videos = timeline.filter(
+  const videoCount = timeline.filter(
     item => item.type === 'Video'
   ).length;
+
+  const data = [
+    {
+      name: 'Call',
+      value: callCount,
+    },
+    {
+      name: 'Text',
+      value: textCount,
+    },
+    {
+      name: 'Video',
+      value: videoCount,
+    },
+  ];
+
+  const COLORS = [
+    '#244D3F',
+    '#5B8DEF',
+    '#F59E0B',
+  ];
 
   const overdue = friends.filter(
     friend => friend.status === 'overdue'
@@ -29,121 +60,116 @@ const Stats = () => {
   ).length;
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-16">
+    <div className="max-w-7xl mx-auto px-5 py-12">
 
+      {/* Heading */}
       <div className="mb-10">
 
-        <p className="text-sm font-semibold text-[#244D3F]">
-          RELATIONSHIP ANALYTICS
+        <p className="text-sm font-bold text-[#244D3F]">
+          RELATIONSHIP INSIGHTS
         </p>
 
-        <h1 className="text-4xl font-semibold mt-2">
-          Stats
+        <h1 className="text-4xl font-bold mt-2">
+          Friendship Analytics
         </h1>
 
-        <p className="text-[#64748B] mt-3">
-          Understand how you are nurturing your relationships.
+        <p className="text-[#64748B] mt-2">
+          Understand how you are staying connected.
         </p>
 
       </div>
 
-      {/* Main Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
+      {/* Stats */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
 
         <div className="bg-white border border-gray-100 rounded-2xl p-6">
-
-          <p className="text-[#64748B]">
+          <p className="text-sm text-[#64748B]">
             Total Friends
           </p>
 
-          <p className="text-4xl font-semibold mt-3">
+          <p className="text-3xl font-bold mt-2">
             {friends.length}
           </p>
-
         </div>
 
         <div className="bg-white border border-gray-100 rounded-2xl p-6">
+          <p className="text-sm text-[#64748B]">
+            Total Interactions
+          </p>
 
-          <p className="text-[#64748B]">
+          <p className="text-3xl font-bold mt-2">
+            {timeline.length}
+          </p>
+        </div>
+
+        <div className="bg-white border border-gray-100 rounded-2xl p-6">
+          <p className="text-sm text-[#64748B]">
             On Track
           </p>
 
-          <p className="text-4xl font-semibold text-[#244D3F] mt-3">
+          <p className="text-3xl font-bold text-emerald-600 mt-2">
             {onTrack}
           </p>
-
         </div>
 
         <div className="bg-white border border-gray-100 rounded-2xl p-6">
-
-          <p className="text-[#64748B]">
+          <p className="text-sm text-[#64748B]">
             Overdue
           </p>
 
-          <p className="text-4xl font-semibold text-red-500 mt-3">
+          <p className="text-3xl font-bold text-red-500 mt-2">
             {overdue}
           </p>
-
-        </div>
-
-        <div className="bg-white border border-gray-100 rounded-2xl p-6">
-
-          <p className="text-[#64748B]">
-            Interactions
-          </p>
-
-          <p className="text-4xl font-semibold mt-3">
-            {timeline.length}
-          </p>
-
         </div>
 
       </div>
 
-      {/* Interaction Type */}
-      <div className="mt-8 bg-white border border-gray-100 rounded-2xl p-8">
+      {/* Chart */}
+      <div className="bg-white border border-gray-100 rounded-2xl p-6 md:p-8 mt-7">
 
-        <h2 className="text-xl font-semibold">
-          By Interaction Type
+        <h2 className="text-xl font-bold">
+          Interaction Overview
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-6">
+        <p className="text-sm text-[#64748B] mt-1">
+          Calls, texts and video interactions.
+        </p>
 
-          <div className="bg-[#F8FAFC] rounded-xl p-6">
+        <div className="w-full h-[350px] mt-5">
 
-            <p className="text-[#64748B]">
-              Call
-            </p>
+          <ResponsiveContainer
+            width="100%"
+            height="100%"
+          >
 
-            <p className="text-3xl font-semibold mt-2">
-              {calls}
-            </p>
+            <PieChart>
 
-          </div>
+              <Pie
+                data={data}
+                cx="50%"
+                cy="50%"
+                innerRadius={75}
+                outerRadius={115}
+                paddingAngle={4}
+                dataKey="value"
+              >
 
-          <div className="bg-[#F8FAFC] rounded-xl p-6">
+                {data.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index]}
+                  />
+                ))}
 
-            <p className="text-[#64748B]">
-              Text
-            </p>
+              </Pie>
 
-            <p className="text-3xl font-semibold mt-2">
-              {texts}
-            </p>
+              <Tooltip />
 
-          </div>
+              <Legend />
 
-          <div className="bg-[#F8FAFC] rounded-xl p-6">
+            </PieChart>
 
-            <p className="text-[#64748B]">
-              Video
-            </p>
-
-            <p className="text-3xl font-semibold mt-2">
-              {videos}
-            </p>
-
-          </div>
+          </ResponsiveContainer>
 
         </div>
 

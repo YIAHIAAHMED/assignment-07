@@ -18,16 +18,18 @@ export const FriendProvider = ({ children }) => {
     },
   ]);
 
+  // Fetch JSON data
   useEffect(() => {
 
     fetch('/friends.json')
       .then((res) => {
 
         if (!res.ok) {
-          throw new Error('Failed to fetch friends');
+          throw new Error('Failed to fetch friends data');
         }
 
         return res.json();
+
       })
       .then((data) => {
 
@@ -46,13 +48,14 @@ export const FriendProvider = ({ children }) => {
 
   }, []);
 
+  // Add Call / Text / Video
   const addInteraction = (friendName, friendId, type) => {
 
     const newEntry = {
       id: Date.now(),
-      friendId,
+      friendId: friendId,
       date: new Date().toISOString().split('T')[0],
-      type,
+      type: type,
       title: `${type} with ${friendName}`,
     };
 
