@@ -106,14 +106,14 @@ const FriendDetails = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-3 gap-2 mt-6">
+          <div className="grid grid-cols-1 gap-1 mt-6">
 
             <button
               type="button"
               className="border border-gray-200 rounded-lg py-3 text-xs font-medium hover:bg-gray-50"
             >
               <Clock3 size={17} className="mx-auto mb-1" />
-              Snooze
+              Snooze 2 Weeks
             </button>
 
             <button
@@ -166,7 +166,7 @@ const FriendDetails = () => {
 
             <div className="bg-white border border-gray-100 rounded-2xl p-5">
               <p className="text-sm text-[#64748B]">
-                Next Due Date
+                Next Due
               </p>
 
               <p className="text-lg font-bold text-[#244D3F] mt-3">
@@ -187,7 +187,7 @@ const FriendDetails = () => {
                 </h2>
 
                 <p className="text-[#64748B] text-sm mt-1">
-                  Stay connected every {friend.goal} days.
+                  Connected every {friend.goal} days.
                 </p>
               </div>
 
@@ -209,9 +209,7 @@ const FriendDetails = () => {
               Quick Check-In
             </h2>
 
-            <p className="text-sm text-[#64748B] mt-1">
-              Log your latest interaction.
-            </p>
+            
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
 

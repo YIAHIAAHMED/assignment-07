@@ -64,3 +64,14 @@ C2. 🔍 Timeline Filter
 
 C3. 📄 GitHub README
 
+ ***Technology Used***
+1. React 
+2. Vite 
+3. JavaScript 
+4. Tailwind CSS 
+5. React Router 
+6. Context API 
+7. Recharts 
+8. Lucide React 
+9. React Hot Toast 
+10. JSON
